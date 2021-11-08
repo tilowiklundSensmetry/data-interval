@@ -148,6 +148,15 @@ prop_insert_lookup =
           Just k -> IML.lookup k (IML.insert i a m) == Just a
           Nothing -> True
 
+prop_insert_lookupAround_just_inserted :: Property
+prop_insert_lookupAround_just_inserted =
+  forAll arbitrary $ \(m :: IntervalMap Rational Integer) ->
+    forAll arbitrary $ \i ->
+      forAll arbitrary $ \a ->
+        case Interval.pickup i of
+          Just k -> IML.lookupAround k (IML.insert i a m) == Just (i, a)
+          Nothing -> True
+
 prop_insert_bang :: Property
 prop_insert_bang =
   forAll arbitrary $ \(m :: IntervalMap Rational Integer) ->

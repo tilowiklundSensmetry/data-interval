@@ -32,6 +32,7 @@ module Data.IntervalMap.Base
   , member
   , notMember
   , lookup
+  , lookupAround
   , findWithDefault
   , span
 
@@ -244,6 +245,19 @@ lookup :: Ord k => k -> IntervalMap k a -> Maybe a
 lookup k (IntervalMap m) =
   case Map.lookupLE (LB (Finite k, Interval.Closed)) m of
     Just (_, (i, a)) | k `Interval.member` i -> Just a
+    _ -> Nothing
+
+-- | Lookup the value and interval at a key in the map.
+--
+-- The function will return the corresponding value and a
+-- surrounding interval as @('Just' (interval, value))@,
+-- or 'Nothing' if the key isn't in the map.  The surrounding interval
+-- @interval@ is such that it contains @value@ and such that @k@ is
+-- constantly equal to @value@ on this interval.
+lookupAround :: Ord k => k -> IntervalMap k a -> Maybe (Interval k, a)
+lookupAround k (IntervalMap m) =
+  case Map.lookupLE (LB (Finite k, Interval.Closed)) m of
+    Just (_, (i, a)) | k `Interval.member` i -> Just (i, a)
     _ -> Nothing
 
 -- | The expression @('findWithDefault' def k map)@ returns
