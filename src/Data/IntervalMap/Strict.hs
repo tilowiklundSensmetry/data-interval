@@ -44,6 +44,7 @@ module Data.IntervalMap.Strict
   , member
   , notMember
   , lookup
+  , lookupAround
   , findWithDefault
   , span
 

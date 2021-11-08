@@ -43,6 +43,7 @@ module Data.IntervalMap.Lazy
   , member
   , notMember
   , lookup
+  , lookupAround
   , findWithDefault
   , span
 
